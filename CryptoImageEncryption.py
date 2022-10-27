@@ -29,7 +29,7 @@ file=""
 Utility Funcions
 
 """
-
+ 
 # A function defined to decrypt a file.
 def decryptWindow():
 
