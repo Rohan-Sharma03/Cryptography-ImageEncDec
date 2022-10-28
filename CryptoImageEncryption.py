@@ -58,7 +58,7 @@ def decryptWindow():
     fileIv= Entry(Ivframe,width=200, font=("Arial" ))
     fileIv.pack(padx =5,pady= 3,side=RIGHT)
     
-    go = Button(newWindow, text='Get Image', font=("Arial", 10), width=25, command = lambda: decode(fileIv.get(),fileKey.get()))
+    go = Button(newWindow, text='Get Image', font=("Arial", 10), width=25, command = lambda: decodeI(fileKey.get(),fileIv.get()))
     go.pack()
 
 
@@ -101,7 +101,7 @@ filePassword.pack(padx =10,pady= 10)
 # label = Message(frame, text='Change',width=300, font=("Arial"))
 # label.pack(padx =5,pady= 10,)
 
-enc = Button(buttonframe, text='Encrypte', font=("Arial", 10) , width=25 ,command=lambda : encode(file,filePassword.get()))
+enc = Button(buttonframe, text='Encrypte', font=("Arial", 10) , width=25 ,command=lambda : encodeI(file,filePassword.get()))
 enc.pack(side = LEFT ,padx =20 ,pady= 20)
 
 dec = Button(buttonframe, text='Decrypte', font=("Arial", 10), width=25, command = decryptWindow)
