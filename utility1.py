@@ -13,9 +13,11 @@ import pyaes, pbkdf2, binascii, os, secrets
 Utility Funcions
 
 """
+# key=0
+# iv=0
 
 # Defining a function to encode the given image using the password given by user
-def encode(fn,pw):
+def encodeI(fn,pw):
     # global iv,key
     print(fn)
     print(pw)
@@ -30,8 +32,8 @@ def encode(fn,pw):
     # Derive a 256-bit AES encryption key from the password given by user
     password = pw
     passwordSalt = os.urandom(128)
-    key = pbkdf2.PBKDF2(password, passwordSalt).read(32)
-    # print(key)
+    key = pbkdf2.PBKDF2(password, passwordSalt).read(16)
+    print(key)
     # print('AES encryption key:', binascii.hexlify(key))
     
     # Defining a iv which ensure the unique encryption everytime a file is encrypted
@@ -56,9 +58,10 @@ def encode(fn,pw):
     """
     Note:  The above saved file is encryted using aes.
     """
+
     
     
-def decode(iv,key):
+def decodeI(key,iv):
     # global iv,key
     from pathlib import Path
     
@@ -67,7 +70,11 @@ def decode(iv,key):
     byte = file.read()
     file.close()
     iv = int(iv)
-    key=bytes(key,'utf-8')
+    key=key.encode("raw_unicode_escape")
+    # keyM=b''
+    # for b in key.split(b'\\'):
+    #     keyM=keyM+b+b'\\'
+    # print(fr'{keyM}')
     print(key,'\n')
     print(iv)
     print(type(key),'\n')
@@ -76,17 +83,17 @@ def decode(iv,key):
     # Creating the aes object, which will be used to decrypte the encrpted file.
     aes = pyaes.AESModeOfOperationCTR(key, pyaes.Counter(iv))
     
-    # decrypted = aes.decrypt(byte)
+    decrypted = aes.decrypt(byte)
     
     # # print(decrypted)
     
     # decodeing to orignal image file from the output obtained from the aes decryted object.
-    # # print(base64.b64decode((decrypted)))
+    # print(base64.b64decode((decrypted)))
     
     # Saving the image to download section of the file.
-    # downloads_path = str(Path.home() /"Downloads")
-    # print(downloads_path)
-    # save=downloads_path+'\image4.jpeg'
-    # decodeit = open(r''+save, 'wb')
-    # decodeit.write(base64.b64decode((decrypted)))
-    # decodeit.close()
+    downloads_path = str(Path.home() /"Downloads")
+    print(downloads_path)
+    save=downloads_path+'\image4.jpeg'
+    decodeit = open(r''+save, 'wb')
+    decodeit.write(base64.b64decode((decrypted)))
+    decodeit.close()
